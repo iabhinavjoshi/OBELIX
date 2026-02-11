@@ -52,6 +52,43 @@ for step in range(1, 2000):
 
 In the current implementation, the push feature explained in the paper is not implemented properly and the current push is more of an attach feature i.e. once the robot finds the box and gets attached to it, the box sticks to the robot and moves along with it. 
 
+## Scoring + Evaluation (Leaderboard)
+
+The environment now supports a simple, reproducible scoring setup:
+
+- **Success condition:** once the robot attaches to the box, the episode ends when the **attached box touches the boundary** (terminal bonus).
+- **Evaluation:** run the agent for a fixed number of steps, repeat for multiple random seeds, and report the mean/std score.
+
+### Submission Template
+
+Edit [agent_template.py](agent_template.py) and implement:
+
+```python
+def policy(obs, rng) -> str:
+    ...
+```
+
+Valid actions are: `L45`, `L22`, `FW`, `R22`, `R45`.
+
+### Running Evaluation
+
+Example (10 runs, averaged):
+
+```bash
+python evaluate.py --agent_file agent_template.py --runs 10 --seed 0 --max_steps 1000 --wall_obstacles
+```
+
+Difficulty knobs:
+
+- `--difficulty 0`: static box
+- `--difficulty 2`: blinking / appearing-disappearing box
+- `--difficulty 3`: moving + blinking box
+- `--box_speed N`: moving box speed (for `--difficulty >= 3`)
+
+This appends a row to `leaderboard.csv`.
+
 ## References
 
 - [Automatic Programming of Behaviour-based Robots using Reinforcement Learning](https://cdn.aaai.org/AAAI/1991/AAAI91-120.pdf)
+
+
